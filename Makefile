@@ -3,9 +3,11 @@
 build:
 	mkdir -p output
 	cp src/qrcode*.png output/
+	cp src/llm.txt output/
 	pandoc src/content.md -o output/index.html \
 	      --template=templates/base.html \
-	      --css=templates/style.css
+	      --css=templates/style.css \
+	      --wrap=none
 	cp templates/style.css output/
 
 watch:
