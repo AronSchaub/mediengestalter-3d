@@ -161,35 +161,39 @@ main {
 }
 
 /* =============================================
-   GRID LAYOUT - 50/2/50 Structure
+   FLEXBOX LAYOUT - 50/2/50 Structure
    ============================================= */
 
-.grid-wrapper {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 0;
+.flex-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4%;
+    align-items: flex-start;
 }
 
 /* =============================================
    SECTION BASE STYLES
    ============================================= */
 
-.grid-tasks,
-.grid-relevant-head,
-.grid-relevant-content,
-.grid-cta-head,
-.grid-cta-content {
+.flex-tasks-head,
+.flex-tasks-list,
+.flex-relevant-head,
+.flex-relevant-content,
+.flex-cta-head,
+.flex-cta-content {
     position: relative;
     padding: var(--space-md);
+    flex: 0 0 100%;
+    max-width: 100%;
 }
 
 /* =============================================
    3px TOP BORDERS
    ============================================= */
 
-.grid-tasks,
-.grid-relevant-head,
-.grid-cta-head {
+.flex-tasks-head,
+.flex-relevant-head,
+.flex-cta-head {
     border-top: 3px solid var(--primary-dark);
 }
 
@@ -207,15 +211,16 @@ main {
 }
 
 /* =============================================
-   TASKS SECTION
+   TASKS HEADING SECTION (Left Column)
    ============================================= */
 
-.grid-tasks {
+.flex-tasks-head {
     padding-left: 0;
     padding-right: 0;
+    padding-top: var(--space-md);
 }
 
-.grid-tasks h3 {
+.flex-tasks-head h3 {
     font-size: clamp(1.4rem, 3vw, 1.8rem);
     font-weight: 700;
     color: var(--text-dark);
@@ -224,12 +229,21 @@ main {
     margin-bottom: var(--space-sm);
 }
 
-.grid-tasks ul {
+/* =============================================
+   TASKS LIST SECTION (Right Column)
+   ============================================= */
+
+.flex-tasks-list {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.flex-tasks-list ul {
     list-style: none;
     padding: 0;
 }
 
-.grid-tasks li {
+.flex-tasks-list li {
     font-size: clamp(0.95rem, 2vw, 1.1rem);
     margin-bottom: var(--space-sm);
     padding-left: var(--space-md);
@@ -237,7 +251,7 @@ main {
     line-height: 1.6;
 }
 
-.grid-tasks li::before {
+.flex-tasks-list li::before {
     content: '→';
     position: absolute;
     left: 0;
@@ -246,42 +260,31 @@ main {
     transition: transform 0.2s var(--ease-out-quart);
 }
 
-.grid-tasks li:hover::before {
+.flex-tasks-list li:hover::before {
     transform: translateX(4px);
     color: var(--accent-green);
 }
 
-.grid-tasks li strong {
+.flex-tasks-list li strong {
     color: var(--primary-dark);
     font-weight: 600;
 }
 
-.grid-tasks li .highlight {
+.flex-tasks-list li .highlight {
     color: var(--accent-blue);
     font-weight: 500;
-}
-
-/* Keywords row */
-.grid-tasks .keywords {
-    margin-top: var(--space-md);
-    padding-top: var(--space-sm);
-    border-top: 1px solid #ddd;
-    font-size: 0.85rem;
-    color: #666;
-    line-height: 1.8;
-    letter-spacing: 0.02em;
 }
 
 /* =============================================
    RELEVANT SECTION
    ============================================= */
 
-.grid-relevant-head {
+.flex-relevant-head {
     padding-left: 0;
     padding-right: 0;
 }
 
-.grid-relevant-head h3 {
+.flex-relevant-head h3 {
     font-size: clamp(1.4rem, 3vw, 1.8rem);
     font-weight: 700;
     color: var(--text-dark);
@@ -290,17 +293,17 @@ main {
     margin-bottom: var(--space-sm);
 }
 
-.grid-relevant-content {
+.flex-relevant-content {
     padding-top: 0;
 }
 
-.grid-relevant-content p {
+.flex-relevant-content p {
     font-size: clamp(1rem, 2vw, 1.2rem);
     line-height: 1.8;
     color: var(--text-dark);
 }
 
-.grid-relevant-content strong {
+.flex-relevant-content strong {
     color: var(--primary-dark);
     font-weight: 600;
     background: var(--accent-blue-subtle);
@@ -312,14 +315,14 @@ main {
    CTA SECTION
    ============================================= */
 
-.grid-cta-head {
+.flex-cta-head {
     padding-left: 0;
     padding-right: 0;
     padding-top: var(--space-lg);
     margin-top: var(--space-lg);
 }
 
-.grid-cta-head h3 {
+.flex-cta-head h3 {
     font-size: clamp(1.3rem, 3vw, 1.7rem);
     font-weight: 700;
     color: var(--text-dark);
@@ -327,24 +330,47 @@ main {
     line-height: 1.2;
 }
 
-.grid-cta-content {
+.flex-cta-content {
     padding-top: 0;
     padding-left: 0;
     padding-right: 0;
 }
 
-.grid-cta-content > p {
+.flex-cta-content > p {
     font-size: clamp(1rem, 2vw, 1.15rem);
     line-height: 1.7;
     margin-bottom: var(--space-sm);
 }
 
-.grid-cta-content strong {
+/* =============================================
+   KEYWORDS SECTION (Bottom)
+   ============================================= */
+
+.flex-keywords {
+    padding: var(--space-md);
+    padding-top: var(--space-sm);
+    margin-top: var(--space-lg);
+    border-top: 1px solid #ddd;
+    font-size: 0.85rem;
+    color: #666;
+    line-height: 1.8;
+    letter-spacing: 0.02em;
+    text-align: center;
+    flex: 1 1 100%;
+}
+
+@media screen and (max-width: 849px) {
+    .flex-keywords {
+        padding: var(--space-sm);
+    }
+}
+
+.flex-cta-content strong {
     color: var(--primary-dark);
     font-weight: 700;
 }
 
-.grid-cta-content .program-name {
+.flex-cta-content .program-name {
     display: block;
     font-size: clamp(1.3rem, 3vw, 1.8rem);
     font-weight: 700;
@@ -432,8 +458,59 @@ main {
     text-transform: uppercase;
 }
 
+/* QR Row - Dynamic flex grid */
+.qr-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-md);
+    margin-top: var(--space-lg);
+    justify-content: flex-start;
+}
+
+/* Individual QR Item - Default: single column (mobile) */
+.qr-item {
+    flex: 1 1 100%;
+    max-width: 100%;
+    padding: var(--space-sm);
+    background: #fff;
+    border: 2px solid var(--primary-dark);
+    text-align: center;
+}
+
+.qr-item img {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-width: 120px;
+    margin: 0 auto;
+}
+
+.qr-item .qr-url {
+    display: block;
+    text-align: center;
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--primary-dark);
+    margin-top: var(--space-xs);
+    letter-spacing: 0.02em;
+    text-decoration: none;
+    line-height: 1.3;
+    word-break: break-word;
+}
+
+.qr-item .qr-label {
+    display: block;
+    text-align: center;
+    font-size: 0.6rem;
+    color: #666;
+    margin-top: var(--space-xs);
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    line-height: 1.3;
+}
+
 /* =============================================
-   DESKTOP LAYOUT - 50% 2% 50%
+   DESKTOP LAYOUT - 2x2 GRID
    ============================================= */
 
 @media screen and (min-width: 850px) {
@@ -442,42 +519,77 @@ main {
         margin: var(--space-xl) auto;
     }
     
-    .grid-wrapper {
-        grid-template-columns: 48% 4% 48%;
-        column-gap: 0;
+    .flex-wrapper {
+        /* gap: 4% is set on base .flex-wrapper */
     }
     
-    /* Row 1: Tasks (left column) */
-    .grid-tasks {
-        grid-column: 1 / 2;
-        grid-row: 1;
+    /* Tasks Heading - Left Column */
+    .flex-tasks-head {
+        flex: 0 0 calc(50% - 2%);
+        max-width: calc(50% - 2%);
     }
     
-    /* Row 2: Relevant (split) */
-    .grid-relevant-head {
-        grid-column: 1 / 2;
-        grid-row: 2;
+    /* Tasks List - Right Column */
+    .flex-tasks-list {
+        flex: 0 0 calc(50% - 2%);
+        max-width: calc(50% - 2%);
     }
     
-    .grid-relevant-content {
-        grid-column: 3 / 4;
-        grid-row: 2;
-        align-self: start;
+    /* Relevant Heading - Left Column (new row) */
+    .flex-relevant-head {
+        flex: 0 0 calc(50% - 2%);
+        max-width: calc(50% - 2%);
+    }
+    
+    /* Relevant Content - Right Column (new row) */
+    .flex-relevant-content {
+        flex: 0 0 calc(50% - 2%);
+        max-width: calc(50% - 2%);
         padding-top: var(--space-md);
     }
     
-    /* Row 3: CTA (full width) */
-    .grid-cta-head {
-        grid-column: 1 / 4;
-        grid-row: 3;
+    /* CTA Section - Full Width */
+    .flex-cta-head {
+        flex: 1 1 100%;
     }
     
-    .grid-cta-content {
-        grid-column: 1 / 4;
-        grid-row: 4;
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
+    .flex-cta-content {
+        flex: 1 1 100%;
+        padding-top: 0;
+    }
+    
+    .flex-cta-head h3 {
+        margin-bottom: var(--space-md);
+    }
+    
+    /* QR Codes - Full Width */
+    .qr-row {
+        flex: 1 1 100%;
+    }
+    
+    /* QR Items - Desktop: 5 per row, dynamic expansion */
+    .qr-row .qr-item {
+        flex: 1 1 calc(20% - var(--space-md) * 4 / 5);
+        min-width: 140px;
+        max-width: 200px;
+        padding: var(--space-sm);
+    }
+    
+    .qr-row .qr-item img {
+        max-width: 140px;
+    }
+    
+    .qr-row .qr-item .qr-url {
+        font-size: 0.75rem;
+    }
+    
+    .qr-row .qr-item .qr-label {
+        font-size: 0.65rem;
+    }
+    
+    /* Keywords - Full Width */
+    .flex-keywords {
+        flex: 1 1 100%;
     }
 }
 
@@ -491,16 +603,19 @@ main {
         margin: var(--space-md) auto;
     }
     
-    .grid-wrapper {
-        display: flex;
+    .flex-wrapper {
         flex-direction: column;
     }
     
-    .grid-tasks,
-    .grid-relevant-head,
-    .grid-relevant-content,
-    .grid-cta-head,
-    .grid-cta-content {
+    .flex-tasks-head,
+    .flex-tasks-list,
+    .flex-relevant-head,
+    .flex-relevant-content,
+    .flex-cta-head,
+    .flex-cta-content,
+    .flex-keywords {
+        flex: 1 1 100%;
+        max-width: 100%;
         padding: var(--space-sm);
     }
     
@@ -511,6 +626,57 @@ main {
     .cta-button {
         width: 100%;
         justify-content: center;
+    }
+    
+    /* QR Row - Single column on mobile */
+    .qr-row {
+        gap: var(--space-sm);
+    }
+    
+    .qr-item {
+        flex: 1 1 100%;
+        max-width: 100%;
+        padding: var(--space-sm);
+    }
+    
+    .qr-item img {
+        max-width: 100px;
+    }
+    
+    .qr-item .qr-url {
+        font-size: 0.8rem;
+    }
+    
+    .qr-item .qr-label {
+        font-size: 0.7rem;
+    }
+}
+
+/* =============================================
+   TABLET LAYOUT - 2-3 QR Codes per row
+   ============================================= */
+
+@media screen and (min-width: 600px) and (max-width: 849px) {
+    .qr-row {
+        gap: var(--space-sm);
+    }
+    
+    .qr-item {
+        flex: 1 1 calc(33.333% - var(--space-sm) * 2 / 3);
+        max-width: none;
+        padding: var(--space-xs);
+    }
+    
+    .qr-item img {
+        max-width: 80px;
+    }
+    
+    .qr-item .qr-url {
+        font-size: 0.65rem;
+    }
+    
+    .qr-item .qr-label {
+        font-size: 0.55rem;
     }
 }
 
@@ -536,29 +702,49 @@ main {
 }
 
 /* Apply staggered animations to sections */
-.grid-tasks {
+.flex-tasks-head {
     opacity: 0;
     animation: fadeInUp 0.6s var(--ease-out-quart) 0.3s forwards;
 }
 
-.grid-relevant-head {
+.flex-tasks-list {
+    opacity: 0;
+    animation: fadeInUp 0.6s var(--ease-out-quart) 0.4s forwards;
+}
+
+.flex-relevant-head {
     opacity: 0;
     animation: fadeInUp 0.6s var(--ease-out-quart) 0.5s forwards;
 }
 
-.grid-relevant-content {
+.flex-relevant-content {
     opacity: 0;
     animation: fadeInUp 0.6s var(--ease-out-quart) 0.6s forwards;
 }
 
-.grid-cta-head {
+.flex-cta-head {
     opacity: 0;
     animation: fadeInUp 0.6s var(--ease-out-quart) 0.8s forwards;
 }
 
-.grid-cta-content {
+.flex-keywords {
+    opacity: 0;
+    animation: fadeInUp 0.6s var(--ease-out-quart) 1.0s forwards;
+}
+
+.flex-cta-content {
     opacity: 0;
     animation: fadeInUp 0.6s var(--ease-out-quart) 0.9s forwards;
+}
+
+.qr-row {
+    opacity: 0;
+    animation: fadeInUp 0.6s var(--ease-out-quart) 1.0s forwards;
+}
+
+.flex-keywords {
+    opacity: 0;
+    animation: fadeInUp 0.6s var(--ease-out-quart) 1.1s forwards;
 }
 
 /* =============================================
@@ -578,11 +764,14 @@ main {
         scroll-behavior: auto;
     }
     
-    .grid-tasks,
-    .grid-relevant-head,
-    .grid-relevant-content,
-    .grid-cta-head,
-    .grid-cta-content {
+    .flex-tasks-head,
+    .flex-tasks-list,
+    .flex-relevant-head,
+    .flex-relevant-content,
+    .flex-cta-head,
+    .flex-cta-content,
+    .qr-row,
+    .flex-keywords {
         opacity: 1;
     }
     
@@ -624,9 +813,10 @@ main {
         color: #000 !important;
     }
     
-    .grid-tasks,
-    .grid-relevant-head,
-    .grid-cta-head {
+    .flex-tasks-head,
+    .flex-relevant-head,
+    .flex-cta-head,
+    .flex-keywords {
         border-top-color: #000 !important;
     }
     

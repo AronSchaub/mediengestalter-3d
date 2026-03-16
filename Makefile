@@ -2,7 +2,7 @@
 
 build:
 	mkdir -p output
-	cp src/qrcode.png output/
+	cp src/qrcode*.png output/
 	pandoc src/content.md -o output/index.html \
 	      --template=templates/base.html \
 	      --css=templates/style.css
