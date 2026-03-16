@@ -1,35 +1,645 @@
-/* Minimal styles for redirect page */
+/* =============================================
+   MEDIENGESTALTER 3D - REDESIGN
+   Swiss Design Grid with CSS Animations (No JS)
+   ============================================= */
 
-body {
+/* SPDX-License-Identifier: GPL */
+/* SPDX-AIModel: Qwen/Qwen3.5-35B-A3B (local) */
+/* SPDX-AIGenerationDate: 2026-03-16 */
+/* SPDX-AIModifications: Pure CSS animations - no JavaScript required */
+
+/* CSS Custom Properties */
+:root {
+    /* Core Color Palette */
+    --primary-dark: #2A3547;
+    --accent-blue: #3A86FF;
+    --accent-green: #00FF9D;
+    --bg-light: #F8F9FA;
+    --text-dark: #212529;
+    
+    /* Extended Palette */
+    --accent-green-hover: #00D985;
+    --accent-blue-muted: rgba(58, 134, 255, 0.08);
+    --accent-blue-subtle: rgba(58, 134, 255, 0.15);
+    --border-dark: #1a2029;
+    
+    /* Typography */
+    --font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    
+    /* Spacing Scale */
+    --space-xs: 0.5rem;
+    --space-sm: 1rem;
+    --space-md: 2rem;
+    --space-lg: 3rem;
+    --space-xl: 5rem;
+    
+    /* Animation Easing */
+    --ease-out-quart: cubic-bezier(0.165, 0.84, 0.44, 1);
+    --ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+/* =============================================
+   RESET & BASE STYLES
+   ============================================= */
+
+*,
+*::before,
+*::after {
     margin: 0;
     padding: 0;
-    font-family: system-ui, -apple-system, sans-serif;
-    background: #fff;
-    color: #000;
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    box-sizing: border-box;
 }
+
+html {
+    font-size: 16px;
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--font-family);
+    line-height: 1.7;
+    color: var(--text-dark);
+    background-color: var(--bg-light);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+}
+
+/* =============================================
+   HEADER SECTION
+   ============================================= */
+
+header {
+    background-color: var(--primary-dark);
+    padding: var(--space-xl) var(--space-md);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Geometric pattern background */
+header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+        linear-gradient(90deg, var(--accent-blue-muted) 1px, transparent 1px),
+        linear-gradient(var(--accent-blue-muted) 1px, transparent 1px);
+    background-size: 40px 40px;
+    opacity: 0.15;
+    pointer-events: none;
+}
+
+/* Bottom accent line */
+header::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, var(--accent-green) 0%, var(--accent-blue) 100%);
+    transform: scaleX(0);
+    transform-origin: left;
+    animation: headerLineExpand 1s var(--ease-out-expo) 0.3s forwards;
+}
+
+@keyframes headerLineExpand {
+    to { transform: scaleX(1); }
+}
+
+header h1 {
+    font-size: clamp(1.8rem, 5vw, 3.2rem);
+    font-weight: 700;
+    color: #ffffff;
+    letter-spacing: -0.025em;
+    text-transform: uppercase;
+    line-height: 1.1;
+    position: relative;
+    z-index: 1;
+    max-width: 900px;
+    margin: 0 auto var(--space-sm);
+    
+    /* Entrance animation */
+    opacity: 0;
+    transform: translateY(30px);
+    animation: headerFadeIn 0.8s var(--ease-out-expo) 0.2s forwards;
+}
+
+header .subtitle {
+    font-size: clamp(1rem, 2.5vw, 1.4rem);
+    font-weight: 400;
+    color: var(--accent-blue);
+    letter-spacing: 0.04em;
+    position: relative;
+    z-index: 1;
+    
+    /* Entrance animation */
+    opacity: 0;
+    transform: translateY(20px);
+    animation: headerFadeIn 0.8s var(--ease-out-expo) 0.5s forwards;
+}
+
+@keyframes headerFadeIn {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* =============================================
+   MAIN CONTAINER
+   ============================================= */
 
 main {
-    text-align: center;
-    padding: 2rem;
+    width: 95%;
+    max-width: 1200px;
+    margin: var(--space-lg) auto;
+    padding: 0 var(--space-sm);
 }
 
-h1 {
-    font-size: clamp(2.5rem, 8vw, 5rem);
+/* =============================================
+   GRID LAYOUT - 50/2/50 Structure
+   ============================================= */
+
+.grid-wrapper {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0;
+}
+
+/* =============================================
+   SECTION BASE STYLES
+   ============================================= */
+
+.grid-tasks,
+.grid-relevant-head,
+.grid-relevant-content,
+.grid-cta-head,
+.grid-cta-content {
+    position: relative;
+    padding: var(--space-md);
+}
+
+/* =============================================
+   3px TOP BORDERS
+   ============================================= */
+
+.grid-tasks,
+.grid-relevant-head,
+.grid-cta-head {
+    border-top: 3px solid var(--primary-dark);
+}
+
+/* =============================================
+   SECTION NUMBERING
+   ============================================= */
+
+.section-number {
+    display: inline-block;
+    font-size: 0.75rem;
     font-weight: 700;
-    margin: 0 0 1rem 0;
-    line-height: 1.1;
+    color: var(--accent-blue);
+    letter-spacing: 0.1em;
+    margin-bottom: var(--space-xs);
 }
 
-p {
-    font-size: clamp(1.25rem, 3vw, 1.75rem);
-    margin: 0.5rem 0;
+/* =============================================
+   TASKS SECTION
+   ============================================= */
+
+.grid-tasks {
+    padding-left: 0;
+    padding-right: 0;
 }
 
-a {
-    color: #0000FF;
-    text-decoration: underline;
+.grid-tasks h3 {
+    font-size: clamp(1.4rem, 3vw, 1.8rem);
+    font-weight: 700;
+    color: var(--text-dark);
+    letter-spacing: -0.015em;
+    line-height: 1.2;
+    margin-bottom: var(--space-sm);
+}
+
+.grid-tasks ul {
+    list-style: none;
+    padding: 0;
+}
+
+.grid-tasks li {
+    font-size: clamp(0.95rem, 2vw, 1.1rem);
+    margin-bottom: var(--space-sm);
+    padding-left: var(--space-md);
+    position: relative;
+    line-height: 1.6;
+}
+
+.grid-tasks li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--accent-blue);
+    font-weight: 700;
+    transition: transform 0.2s var(--ease-out-quart);
+}
+
+.grid-tasks li:hover::before {
+    transform: translateX(4px);
+    color: var(--accent-green);
+}
+
+.grid-tasks li strong {
+    color: var(--primary-dark);
+    font-weight: 600;
+}
+
+.grid-tasks li .highlight {
+    color: var(--accent-blue);
+    font-weight: 500;
+}
+
+/* Keywords row */
+.grid-tasks .keywords {
+    margin-top: var(--space-md);
+    padding-top: var(--space-sm);
+    border-top: 1px solid #ddd;
+    font-size: 0.85rem;
+    color: #666;
+    line-height: 1.8;
+    letter-spacing: 0.02em;
+}
+
+/* =============================================
+   RELEVANT SECTION
+   ============================================= */
+
+.grid-relevant-head {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.grid-relevant-head h3 {
+    font-size: clamp(1.4rem, 3vw, 1.8rem);
+    font-weight: 700;
+    color: var(--text-dark);
+    letter-spacing: -0.015em;
+    line-height: 1.2;
+    margin-bottom: var(--space-sm);
+}
+
+.grid-relevant-content {
+    padding-top: 0;
+}
+
+.grid-relevant-content p {
+    font-size: clamp(1rem, 2vw, 1.2rem);
+    line-height: 1.8;
+    color: var(--text-dark);
+}
+
+.grid-relevant-content strong {
+    color: var(--primary-dark);
+    font-weight: 600;
+    background: var(--accent-blue-subtle);
+    padding: 0.1em 0.3em;
+    border-radius: 2px;
+}
+
+/* =============================================
+   CTA SECTION
+   ============================================= */
+
+.grid-cta-head {
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: var(--space-lg);
+    margin-top: var(--space-lg);
+}
+
+.grid-cta-head h3 {
+    font-size: clamp(1.3rem, 3vw, 1.7rem);
+    font-weight: 700;
+    color: var(--text-dark);
+    letter-spacing: -0.015em;
+    line-height: 1.2;
+}
+
+.grid-cta-content {
+    padding-top: 0;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.grid-cta-content > p {
+    font-size: clamp(1rem, 2vw, 1.15rem);
+    line-height: 1.7;
+    margin-bottom: var(--space-sm);
+}
+
+.grid-cta-content strong {
+    color: var(--primary-dark);
+    font-weight: 700;
+}
+
+.grid-cta-content .program-name {
+    display: block;
+    font-size: clamp(1.3rem, 3vw, 1.8rem);
+    font-weight: 700;
+    color: var(--accent-blue);
+    margin: var(--space-md) 0;
+    line-height: 1.3;
+}
+
+/* CTA Button */
+.cta-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: clamp(1rem, 2.5vw, 1.2rem);
+    font-weight: 700;
+    color: var(--primary-dark);
+    background-color: var(--accent-green);
+    padding: 1.2rem 2.5rem;
+    border: none;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.3s var(--ease-out-quart);
+}
+
+.cta-button::after {
+    content: '→';
+    font-size: 1.2em;
+    transition: transform 0.3s var(--ease-out-quart);
+}
+
+.cta-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 
+        0 10px 30px rgba(0, 255, 157, 0.3),
+        0 0 0 3px var(--accent-green-hover);
+    background-color: var(--accent-green-hover);
+}
+
+.cta-button:hover::after {
+    transform: translateX(5px);
+}
+
+.cta-button:focus-visible {
+    outline: 3px solid var(--accent-blue);
+    outline-offset: 3px;
+}
+
+/* QR Code */
+.qr-container {
+    display: inline-block;
+    margin-top: var(--space-lg);
+    padding: var(--space-xs);
+    background: #fff;
+    border: 2px solid var(--primary-dark);
+}
+
+.qr-container img {
+    display: block;
+    max-width: 150px;
+    height: auto;
+}
+
+.qr-url {
+    display: block;
+    text-align: center;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--primary-dark);
+    margin-top: var(--space-xs);
+    letter-spacing: 0.02em;
+    text-decoration: none;
+}
+
+.qr-label {
+    display: block;
+    text-align: center;
+    font-size: 0.75rem;
+    color: #666;
+    margin-top: var(--space-xs);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+/* =============================================
+   DESKTOP LAYOUT - 50% 2% 50%
+   ============================================= */
+
+@media screen and (min-width: 850px) {
+    main {
+        width: 90%;
+        margin: var(--space-xl) auto;
+    }
+    
+    .grid-wrapper {
+        grid-template-columns: 48% 4% 48%;
+        column-gap: 0;
+    }
+    
+    /* Row 1: Tasks (left column) */
+    .grid-tasks {
+        grid-column: 1 / 2;
+        grid-row: 1;
+    }
+    
+    /* Row 2: Relevant (split) */
+    .grid-relevant-head {
+        grid-column: 1 / 2;
+        grid-row: 2;
+    }
+    
+    .grid-relevant-content {
+        grid-column: 3 / 4;
+        grid-row: 2;
+        align-self: start;
+        padding-top: var(--space-md);
+    }
+    
+    /* Row 3: CTA (full width) */
+    .grid-cta-head {
+        grid-column: 1 / 4;
+        grid-row: 3;
+    }
+    
+    .grid-cta-content {
+        grid-column: 1 / 4;
+        grid-row: 4;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+/* =============================================
+   MOBILE LAYOUT - Single Column
+   ============================================= */
+
+@media screen and (max-width: 849px) {
+    main {
+        width: 95%;
+        margin: var(--space-md) auto;
+    }
+    
+    .grid-wrapper {
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .grid-tasks,
+    .grid-relevant-head,
+    .grid-relevant-content,
+    .grid-cta-head,
+    .grid-cta-content {
+        padding: var(--space-sm);
+    }
+    
+    .qr-container {
+        margin-top: var(--space-md);
+    }
+    
+    .cta-button {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+/* =============================================
+   SIMPLE CSS ANIMATIONS (No JS)
+   ============================================= */
+
+/* Fade in animation keyframes */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* Apply staggered animations to sections */
+.grid-tasks {
+    opacity: 0;
+    animation: fadeInUp 0.6s var(--ease-out-quart) 0.3s forwards;
+}
+
+.grid-relevant-head {
+    opacity: 0;
+    animation: fadeInUp 0.6s var(--ease-out-quart) 0.5s forwards;
+}
+
+.grid-relevant-content {
+    opacity: 0;
+    animation: fadeInUp 0.6s var(--ease-out-quart) 0.6s forwards;
+}
+
+.grid-cta-head {
+    opacity: 0;
+    animation: fadeInUp 0.6s var(--ease-out-quart) 0.8s forwards;
+}
+
+.grid-cta-content {
+    opacity: 0;
+    animation: fadeInUp 0.6s var(--ease-out-quart) 0.9s forwards;
+}
+
+/* =============================================
+   REDUCED MOTION SUPPORT
+   ============================================= */
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+    
+    html {
+        scroll-behavior: auto;
+    }
+    
+    .grid-tasks,
+    .grid-relevant-head,
+    .grid-relevant-content,
+    .grid-cta-head,
+    .grid-cta-content {
+        opacity: 1;
+    }
+    
+    header::after {
+        transform: scaleX(1);
+    }
+    
+    header h1,
+    header .subtitle {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+/* =============================================
+   PRINT STYLES
+   ============================================= */
+
+@media print {
+    body {
+        background-color: #fff;
+        color: #000;
+    }
+    
+    header {
+        background-color: #f5f5f5 !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+        padding: 2rem 1rem;
+    }
+    
+    header::before,
+    header::after {
+        display: none;
+    }
+    
+    header h1,
+    header .subtitle {
+        color: #000 !important;
+    }
+    
+    .grid-tasks,
+    .grid-relevant-head,
+    .grid-cta-head {
+        border-top-color: #000 !important;
+    }
+    
+    .cta-button {
+        background: none !important;
+        color: #000 !important;
+        border: 2px solid #000 !important;
+        padding: 0.5rem 1rem;
+    }
+    
+    /* Remove animations */
+    * {
+        animation: none !important;
+        transition: none !important;
+    }
 }
