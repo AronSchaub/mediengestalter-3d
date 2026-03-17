@@ -1,0 +1,917 @@
+/* =============================================
+   MEDIENGESTALTER 3D - REDESIGN
+   Swiss Design Grid with CSS Animations (No JS)
+   ============================================= */
+
+/* SPDX-License-Identifier: GPL */
+/* SPDX-AIModel: Qwen/Qwen3.5-35B-A3B (local) */
+/* SPDX-AIGenerationDate: 2026-03-16 */
+/* SPDX-AIModifications: Pure CSS animations - no JavaScript required */
+
+/* CSS Custom Properties */
+:root {
+    /* Core Color Palette */
+    --primary-dark: #2A3547;
+    --accent-blue: #3A86FF;
+    --accent-green: #00FF9D;
+    --bg-light: #F8F9FA;
+    --text-dark: #212529;
+    
+    /* Secondary Text Colors */
+    --text-muted: #555555;
+    --text-subtle: #666666;
+    
+    /* Utility Colors */
+    --color-white: #ffffff;
+    --color-black: #000000;
+    
+    /* Extended Palette */
+    --accent-green-hover: #00D985;
+    --accent-blue-muted: rgba(58, 134, 255, 0.08);
+    --accent-blue-subtle: rgba(58, 134, 255, 0.15);
+    --border-dark: #1a2029;
+    
+    /* Typography */
+    --font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    
+    /* Spacing Scale */
+    --space-xs: 0.5rem;
+    --space-sm: 1rem;
+    --space-md: 2rem;
+    --space-lg: 3rem;
+    --space-xl: 5rem;
+    
+    /* Animation Easing */
+    --ease-out-quart: cubic-bezier(0.165, 0.84, 0.44, 1);
+    --ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+/* =============================================
+   RESET & BASE STYLES
+   ============================================= */
+
+/* Skip Link for Keyboard Navigation */
+.skip-link {
+    position: absolute;
+    top: -100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--primary-dark);
+    color: var(--color-white);
+    padding: 1rem 2rem;
+    text-decoration: none;
+    font-weight: 600;
+    z-index: 10000;
+    border-radius: 0 0 8px 8px;
+    transition: top 0.2s var(--ease-out-quart);
+}
+
+.skip-link:focus {
+    top: 0;
+    outline: 3px solid var(--accent-green);
+    outline-offset: 2px;
+}
+
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 16px;
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--font-family);
+    line-height: 1.7;
+    color: var(--text-dark);
+    background-color: var(--bg-light);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+}
+
+/* =============================================
+   HEADER SECTION
+   ============================================= */
+
+header {
+    background-color: var(--primary-dark);
+    padding: var(--space-xl) var(--space-md);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Geometric pattern background */
+header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+        linear-gradient(90deg, var(--accent-blue-muted) 1px, transparent 1px),
+        linear-gradient(var(--accent-blue-muted) 1px, transparent 1px);
+    background-size: 40px 40px;
+    opacity: 0.08;
+    pointer-events: none;
+}
+
+/* Bottom accent line */
+header::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, var(--accent-green) 0%, var(--accent-blue) 100%);
+    transform: scaleX(0);
+    transform-origin: left;
+    animation: headerLineExpand 1s var(--ease-out-expo) 0.3s forwards;
+}
+
+@keyframes headerLineExpand {
+    to { transform: scaleX(1); }
+}
+
+header h1 {
+    font-size: clamp(1.8rem, 5vw, 3.2rem);
+    font-weight: 700;
+    color: var(--color-white);
+    letter-spacing: -0.025em;
+    text-transform: uppercase;
+    line-height: 1.1;
+    position: relative;
+    z-index: 1;
+    max-width: 900px;
+    margin: 0 auto var(--space-sm);
+    overflow-wrap: break-word;
+    word-break: break-word;
+    
+    /* Entrance animation */
+    opacity: 0;
+    transform: translateY(30px);
+    animation: headerFadeIn 0.8s var(--ease-out-expo) 0.2s forwards;
+}
+
+header .subtitle {
+    font-size: clamp(1rem, 2.5vw, 1.4rem);
+    font-weight: 400;
+    color: var(--accent-blue);
+    letter-spacing: 0.04em;
+    position: relative;
+    z-index: 1;
+    
+    /* Entrance animation */
+    opacity: 0;
+    transform: translateY(20px);
+    animation: headerFadeIn 0.8s var(--ease-out-expo) 0.5s forwards;
+}
+
+@keyframes headerFadeIn {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* =============================================
+   MAIN CONTAINER
+   ============================================= */
+
+main {
+    width: 95%;
+    max-width: 1200px;
+    margin: var(--space-lg) auto;
+    padding: 0 var(--space-sm);
+}
+
+/* =============================================
+   FLEXBOX LAYOUT - 50/2/50 Structure
+   ============================================= */
+
+.flex-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4%;
+    align-items: flex-start;
+}
+
+/* =============================================
+   SECTION BASE STYLES
+   ============================================= */
+
+.flex-tasks-head,
+.flex-tasks-list,
+.flex-relevant-head,
+.flex-relevant-content,
+.flex-cta-head,
+.flex-cta-content {
+    position: relative;
+    padding: var(--space-md);
+    flex: 0 0 100%;
+    max-width: 100%;
+    min-width: 0;
+    overflow: hidden;
+}
+
+/* =============================================
+   3px TOP BORDERS
+   ============================================= */
+
+.flex-tasks-head,
+.flex-relevant-head,
+.flex-cta-head {
+    border-top: 3px solid var(--primary-dark);
+}
+
+/* =============================================
+   SECTION NUMBERING
+   ============================================= */
+
+.section-number {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--accent-blue);
+    letter-spacing: 0.1em;
+    margin-bottom: var(--space-xs);
+}
+
+/* =============================================
+   TASKS HEADING SECTION (Left Column)
+   ============================================= */
+
+.flex-tasks-head {
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: var(--space-md);
+}
+
+.flex-tasks-head h3 {
+    font-size: clamp(1.4rem, 3vw, 1.8rem);
+    font-weight: 700;
+    color: var(--text-dark);
+    letter-spacing: -0.015em;
+    line-height: 1.2;
+    margin-bottom: var(--space-sm);
+    overflow-wrap: break-word;
+    word-break: break-word;
+}
+
+/* =============================================
+   TASKS LIST SECTION (Right Column)
+   ============================================= */
+
+.flex-tasks-list {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.flex-tasks-list ul {
+    list-style: none;
+    padding: 0;
+}
+
+.flex-tasks-list li {
+    font-size: clamp(0.95rem, 2vw, 1.1rem);
+    margin-bottom: var(--space-sm);
+    padding-left: var(--space-md);
+    position: relative;
+    line-height: 1.6;
+}
+
+.flex-tasks-list li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--accent-blue);
+    font-weight: 700;
+    transition: transform 0.2s var(--ease-out-quart);
+}
+
+.flex-tasks-list li:hover::before {
+    transform: translateX(4px);
+    color: var(--accent-green);
+}
+
+.flex-tasks-list li strong {
+    color: var(--primary-dark);
+    font-weight: 600;
+}
+
+.flex-tasks-list li .highlight {
+    color: var(--accent-blue);
+    font-weight: 500;
+}
+
+/* =============================================
+   RELEVANT SECTION
+   ============================================= */
+
+.flex-relevant-head {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.flex-relevant-head h3 {
+    font-size: clamp(1.4rem, 3vw, 1.8rem);
+    font-weight: 700;
+    color: var(--text-dark);
+    letter-spacing: -0.015em;
+    line-height: 1.2;
+    margin-bottom: var(--space-sm);
+    overflow-wrap: break-word;
+    word-break: break-word;
+}
+
+.flex-relevant-content {
+    padding-top: 0;
+}
+
+.flex-relevant-content p {
+    font-size: clamp(1rem, 2vw, 1.2rem);
+    line-height: 1.8;
+    color: var(--text-dark);
+}
+
+.flex-relevant-content strong {
+    color: var(--primary-dark);
+    font-weight: 600;
+    background: var(--accent-blue-subtle);
+    padding: 0.1em 0.3em;
+}
+
+/* =============================================
+   CTA SECTION
+   ============================================= */
+
+.flex-cta-head {
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: var(--space-lg);
+    margin-top: var(--space-lg);
+}
+
+.flex-cta-head h3 {
+    font-size: clamp(1.3rem, 3vw, 1.7rem);
+    font-weight: 700;
+    color: var(--text-dark);
+    letter-spacing: -0.015em;
+    line-height: 1.2;
+    overflow-wrap: break-word;
+    word-break: break-word;
+}
+
+.flex-cta-content {
+    padding-top: 0;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.flex-cta-content > p {
+    font-size: clamp(1rem, 2vw, 1.15rem);
+    line-height: 1.7;
+    margin-bottom: var(--space-sm);
+}
+
+/* =============================================
+   KEYWORDS SECTION (Bottom)
+   ============================================= */
+
+.flex-keywords {
+    padding: var(--space-md);
+    padding-top: var(--space-sm);
+    margin-top: var(--space-lg);
+    border-top: 3px solid var(--primary-dark);
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    line-height: 1.8;
+    letter-spacing: 0.02em;
+    text-align: center;
+    flex: 1 1 100%;
+}
+
+@media screen and (max-width: 849px) {
+    .flex-keywords {
+        padding: var(--space-sm);
+    }
+}
+
+.flex-cta-content strong {
+    color: var(--primary-dark);
+    font-weight: 700;
+}
+
+.flex-cta-content .program-name {
+    display: block;
+    font-size: clamp(1.3rem, 3vw, 1.8rem);
+    font-weight: 700;
+    color: var(--accent-blue);
+    margin: var(--space-md) 0;
+    line-height: 1.3;
+}
+
+/* CTA Button */
+.cta-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    font-size: clamp(1rem, 2.5vw, 1.2rem);
+    font-weight: 700;
+    color: var(--primary-dark);
+    background-color: var(--accent-green);
+    padding: 1rem 2.5rem;
+    min-height: 48px;
+    border: none;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.3s var(--ease-out-quart);
+}
+
+.cta-button::after {
+    content: '→';
+    font-size: 1.2em;
+    transition: transform 0.3s var(--ease-out-quart);
+}
+
+.cta-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 
+        0 8px 25px rgba(0, 255, 157, 0.25),
+        0 0 0 3px var(--accent-green-hover);
+    background-color: var(--accent-green-hover);
+}
+
+.cta-button:hover::after {
+    transform: translateX(5px);
+}
+
+.cta-button:active {
+    transform: translateY(0);
+    box-shadow: 
+        0 2px 10px rgba(0, 255, 157, 0.2),
+        0 0 0 2px var(--accent-green-hover);
+    background-color: var(--accent-green-hover);
+}
+
+.cta-button:focus-visible {
+    outline: 3px solid var(--accent-blue);
+    outline-offset: 3px;
+}
+
+/* QR Code */
+.qr-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-md);
+    margin-top: var(--space-lg);
+    justify-content: flex-start;
+}
+
+/* Individual QR Item - Default: single column (mobile) */
+.qr-item {
+    flex: 1 1 100%;
+    max-width: 100%;
+    min-width: 0;
+    padding: var(--space-sm);
+    background: #fff;
+    border: 2px solid var(--primary-dark);
+    text-align: center;
+    overflow: hidden;
+}
+
+.qr-item img {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-width: 120px;
+    margin: 0 auto;
+}
+
+.qr-item .qr-url {
+    display: block;
+    text-align: center;
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--primary-dark);
+    margin-top: var(--space-xs);
+    letter-spacing: 0.02em;
+    text-decoration: none;
+    line-height: 1.3;
+    word-break: break-word;
+    position: relative;
+    transition: color 0.2s var(--ease-out-quart);
+}
+
+.qr-item .qr-url:hover {
+    color: var(--accent-blue);
+}
+
+.qr-item .qr-url:focus-visible {
+    outline: 2px solid var(--accent-blue);
+    outline-offset: 2px;
+}
+
+.qr-item .qr-label {
+    display: block;
+    text-align: center;
+    font-size: 0.6rem;
+    color: var(--text-muted);
+    margin-top: var(--space-xs);
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    line-height: 1.3;
+}
+
+/* =============================================
+   DESKTOP LAYOUT - 2x2 GRID
+   ============================================= */
+
+@media screen and (min-width: 850px) {
+    main {
+        width: 90%;
+        margin: var(--space-xl) auto;
+    }
+    
+    .flex-wrapper {
+        /* gap: 4% is set on base .flex-wrapper */
+    }
+    
+    /* Tasks Heading - Left Column */
+    .flex-tasks-head {
+        flex: 0 0 calc(50% - 2%);
+        max-width: calc(50% - 2%);
+    }
+    
+    /* Tasks List - Right Column */
+    .flex-tasks-list {
+        flex: 0 0 calc(50% - 2%);
+        max-width: calc(50% - 2%);
+    }
+    
+    /* Relevant Heading - Left Column (new row) */
+    .flex-relevant-head {
+        flex: 0 0 calc(50% - 2%);
+        max-width: calc(50% - 2%);
+    }
+    
+    /* Relevant Content - Right Column (new row) */
+    .flex-relevant-content {
+        flex: 0 0 calc(50% - 2%);
+        max-width: calc(50% - 2%);
+        padding-top: var(--space-md);
+    }
+    
+    /* CTA Section - Full Width */
+    .flex-cta-head {
+        flex: 1 1 100%;
+    }
+    
+    .flex-cta-content {
+        flex: 1 1 100%;
+        padding-top: 0;
+    }
+    
+    .flex-cta-head h3 {
+        margin-bottom: var(--space-md);
+    }
+    
+    /* QR Codes - Full Width */
+    .qr-row {
+        flex: 1 1 100%;
+    }
+    
+    /* QR Items - Desktop: 5 per row, dynamic expansion */
+    .qr-row .qr-item {
+        flex: 1 1 calc(20% - var(--space-md) * 4 / 5);
+        min-width: 140px;
+        max-width: 200px;
+        padding: var(--space-sm);
+    }
+    
+    .qr-row .qr-item img {
+        max-width: 140px;
+    }
+    
+    .qr-row .qr-item .qr-url {
+        font-size: 0.75rem;
+    }
+    
+    .qr-row .qr-item .qr-label {
+        font-size: 0.65rem;
+    }
+    
+    /* Keywords - Full Width */
+    .flex-keywords {
+        flex: 1 1 100%;
+    }
+}
+
+/* =============================================
+   MOBILE LAYOUT - Single Column
+   ============================================= */
+
+@media screen and (max-width: 849px) {
+    main {
+        width: 95%;
+        margin: var(--space-md) auto;
+    }
+    
+    .flex-wrapper {
+        flex-direction: column;
+    }
+    
+    .flex-tasks-head,
+    .flex-tasks-list,
+    .flex-relevant-head,
+    .flex-relevant-content,
+    .flex-cta-head,
+    .flex-cta-content,
+    .flex-keywords {
+        flex: 1 1 100%;
+        max-width: 100%;
+        padding: var(--space-sm);
+    }
+    
+    .cta-button {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    /* QR Row - Single column on mobile */
+    .qr-row {
+        gap: var(--space-sm);
+    }
+    
+    .qr-item {
+        flex: 1 1 100%;
+        max-width: 100%;
+        padding: var(--space-sm);
+    }
+    
+    .qr-item img {
+        max-width: 100px;
+    }
+    
+    .qr-item .qr-url {
+        font-size: 0.8rem;
+    }
+    
+    .qr-item .qr-label {
+        font-size: 0.7rem;
+    }
+}
+
+/* =============================================
+   SMALL MOBILE - Extra conservative spacing
+   ============================================= */
+
+@media screen and (max-width: 380px) {
+    .flex-wrapper {
+        gap: 0.5rem;
+    }
+    
+    main {
+        width: 100%;
+        padding: 0 0.5rem;
+    }
+    
+    header {
+        padding: var(--space-lg) var(--space-xs);
+    }
+}
+
+/* =============================================
+   TABLET LAYOUT - 2-3 QR Codes per row
+   ============================================= */
+
+@media screen and (min-width: 600px) and (max-width: 849px) {
+    .qr-row {
+        gap: var(--space-sm);
+    }
+    
+    .qr-item {
+        flex: 1 1 calc(33.333% - var(--space-sm) * 2 / 3);
+        max-width: none;
+        padding: var(--space-xs);
+    }
+    
+    .qr-item img {
+        max-width: 80px;
+    }
+    
+    .qr-item .qr-url {
+        font-size: 0.65rem;
+    }
+    
+    .qr-item .qr-label {
+        font-size: 0.55rem;
+    }
+}
+
+/* =============================================
+   SIMPLE CSS ANIMATIONS (No JS)
+   ============================================= */
+
+/* Fade in animation keyframes */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* Apply staggered animations to sections */
+.flex-tasks-head {
+    opacity: 0;
+    animation: fadeInUp 0.6s var(--ease-out-quart) 0.3s forwards;
+}
+
+.flex-tasks-list {
+    opacity: 0;
+    animation: fadeInUp 0.6s var(--ease-out-quart) 0.4s forwards;
+}
+
+.flex-relevant-head {
+    opacity: 0;
+    animation: fadeInUp 0.6s var(--ease-out-quart) 0.5s forwards;
+}
+
+.flex-relevant-content {
+    opacity: 0;
+    animation: fadeInUp 0.6s var(--ease-out-quart) 0.6s forwards;
+}
+
+.flex-cta-head {
+    opacity: 0;
+    animation: fadeInUp 0.6s var(--ease-out-quart) 0.8s forwards;
+}
+
+.flex-keywords {
+    opacity: 0;
+    animation: fadeInUp 0.6s var(--ease-out-quart) 1.0s forwards;
+}
+
+.flex-cta-content {
+    opacity: 0;
+    animation: fadeInUp 0.6s var(--ease-out-quart) 0.9s forwards;
+}
+
+.qr-row {
+    opacity: 0;
+    animation: fadeInUp 0.6s var(--ease-out-quart) 1.0s forwards;
+}
+
+/* =============================================
+   REDUCED MOTION SUPPORT
+   ============================================= */
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+    
+    html {
+        scroll-behavior: auto;
+    }
+    
+    .flex-tasks-head,
+    .flex-tasks-list,
+    .flex-relevant-head,
+    .flex-relevant-content,
+    .flex-cta-head,
+    .flex-cta-content,
+    .qr-row,
+    .flex-keywords {
+        opacity: 1;
+    }
+    
+    header::after {
+        transform: scaleX(1);
+    }
+    
+    header h1,
+    header .subtitle {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+/* =============================================
+   PRINT STYLES
+   ============================================= */
+
+@media print {
+    body {
+        background-color: var(--color-white);
+        color: var(--color-black);
+    }
+    
+    header {
+        background-color: #f5f5f5 !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+        padding: 2rem 1rem;
+    }
+    
+    header::before,
+    header::after {
+        display: none;
+    }
+    
+    header h1,
+    header .subtitle {
+        color: var(--color-black) !important;
+    }
+    
+    .flex-tasks-head,
+    .flex-relevant-head,
+    .flex-cta-head,
+    .flex-keywords {
+        border-top-color: var(--color-black) !important;
+    }
+    
+    .cta-button {
+        background: none !important;
+        color: var(--color-black) !important;
+        border: 2px solid var(--color-black) !important;
+        padding: 0.5rem 1rem;
+    }
+    
+    /* Hide QR codes in print - not useful on paper */
+    .qr-row {
+        display: none !important;
+    }
+    
+    /* Remove animations */
+    * {
+        animation: none !important;
+        transition: none !important;
+    }
+}
+
+/* =============================================
+   RTL (RIGHT-TO-LEFT) SUPPORT
+   ============================================= */
+
+/* Use logical properties for RTL compatibility */
+[dir="rtl"] {
+    /* Flip text alignment */
+    text-align: right;
+    
+    /* Flip flex directions */
+    direction: rtl;
+}
+
+/* Logical margin/padding for RTL */
+[dir="rtl"] .flex-tasks-list li {
+    padding-left: 0;
+    padding-right: var(--space-md);
+}
+
+[dir="rtl"] .flex-tasks-list li::before {
+    left: auto;
+    right: 0;
+}
+
+[dir="rtl"] .flex-tasks-list li:hover::before {
+    transform: translateX(-4px);
+}
+
+[dir="rtl"] .cta-button::after {
+    transform: scaleX(-1);
+}
+
+[dir="rtl"] .cta-button:hover::after {
+    transform: scaleX(-1) translateX(5px);
+}
+
+/* QR items - ensure proper alignment in RTL */
+[dir="rtl"] .qr-row {
+    justify-content: flex-end;
+}

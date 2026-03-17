@@ -1,0 +1,7 @@
+# robots.txt - Search Engine Crawler Instructions
+
+User-agent: *
+Allow: /
+
+# AI / LLM Crawlers: See llm.txt for instructions
+Sitemap: https://mediengestalter-3d.de/llm.txt
